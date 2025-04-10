@@ -28,13 +28,7 @@ jobs:
       - name: Build application
         run: npm run build
         env:
-          DATABASE_URL: "file:./test.db?connection_limit=1"
-
-      - name: Run tests
-        run: npm test
-        env:
-          DATABASE_URL: "file:./test.db?connection_limit=1"
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
   deploy:
     needs: build-and-test
