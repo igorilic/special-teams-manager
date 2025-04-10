@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  role         String   @default("VIEWER")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Player {
+  id                     Int                  @id @default(autoincrement())
+  firstName              String
+  lastName               String
+  primaryPosition        String?
+  fgPosition             String?
+  koPosition             String?
+  korPosition            String?
+  puntPosition           String?
+  handsTeam              Boolean              @default(false)
+  height                 String?
+  weight                 Int?
+  fortyTime              Float?
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+  fieldGoalPositions     FieldGoalDepth[]
+  handsPositions         HandsDepth[]
+  kickoffPositions       KickoffDepth[]
+  kickoffReturnPositions KickoffReturnDepth[]
+  puntPositions          PuntDepth[]
+}
+
+model KickoffDepth {
+  id        Int    @id @default(autoincrement())
+  position  String
+  teamDepth Int
+  playerId  Int
+  player    Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([position, teamDepth])
+}
+
+model KickoffReturnDepth {
+  id        Int    @id @default(autoincrement())
+  position  String
+  teamDepth Int
+  playerId  Int
+  player    Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([position, teamDepth])
+}
+
+model PuntDepth {
+  id        Int    @id @default(autoincrement())
+  position  String
+  teamDepth Int
+  playerId  Int
+  player    Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([position, teamDepth])
+}
+
+model FieldGoalDepth {
+  id        Int    @id @default(autoincrement())
+  position  String
+  teamDepth Int
+  playerId  Int
+  player    Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([position, teamDepth])
+}
+
+model HandsDepth {
+  id        Int    @id @default(autoincrement())
+  position  String
+  teamDepth Int
+  playerId  Int
+  player    Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([position, teamDepth])
+}
