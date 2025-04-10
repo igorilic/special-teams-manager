@@ -6,3 +6,4 @@ public/build
 .env
 *.db
 prisma/data.db
+.vercel
